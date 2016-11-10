@@ -14,16 +14,16 @@ public class Task {
     private LocalDateTime createdDate;
     private Status status;
 
-    public Task(int id, String title, String description, Status status) {
-        this.createdDate = LocalDateTime.now();
+    public Task(int id, String title, String description) {
+        this();
         this.id = id;
         this.title = title;
         this.description = description;
-        this.status = status;
     }
 
     public Task() {
-//        this.createdDate = LocalDateTime.now();
+        this.createdDate = LocalDateTime.now();
+        this.status = Status.NEW;
     }
 
     public int getId() {

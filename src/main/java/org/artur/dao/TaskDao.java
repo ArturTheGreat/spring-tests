@@ -2,6 +2,8 @@ package org.artur.dao;
 
 import org.artur.entity.Status;
 import org.artur.entity.Task;
+import org.artur.service.TaskIdGen;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -14,12 +16,15 @@ import java.util.Map;
 @Repository
 public class TaskDao {
 
+    @Autowired
+    private TaskIdGen taskIdGen;
+
     private static Map<Integer, Task> tasks;
 
     static {
         tasks = new HashMap<Integer, Task>(){{
-            put(1,new Task(1,"FirstTask","First task in app", Status.NEW));
-            put(2,new Task(2,"SecondTask","Some span task redy to do!", Status.NEW));
+            put(1,new Task(1,"FirstTask","First task in app"));
+            put(2,new Task(2,"SecondTask","Some span task redy to do!"));
         }};
     }
 
@@ -31,8 +36,10 @@ public class TaskDao {
         return tasks.get(id);
     }
 
-    public void createNewTask(Task task){
+    public Task createNewTask(Task task){
+        task.setId(taskIdGen.getNextId());
         tasks.put(task.getId(), task);
+        return task;
     }
 
     public void deleteTaskById(int id) {
